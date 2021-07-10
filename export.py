@@ -141,11 +141,11 @@ class ResultFile(object):
         data.SetNumberOfComponents(components)
         data.SetNumberOfTuples(entries)
         for i, entry in enumerate(A):
-            if components is 1:
+            if components == 1:
                 data.SetTuple1(i, entry)
-            if components is 2:
+            if components == 2:
                 data.SetTuple2(i, entry[0], entry[1])
-            if components is 3:
+            if components == 3:
                 data.SetTuple3(i, entry[0], entry[1], entry[2])
         return data
 
@@ -220,11 +220,11 @@ class DataFile(object):
         data.SetNumberOfComponents(components)
         data.SetNumberOfTuples(entries)
         for i, entry in enumerate(A):
-            if components is 1:
+            if components == 1:
                 data.SetTuple1(i, entry)
-            if components is 2:
+            if components == 2:
                 data.SetTuple2(i, entry[0], entry[1])
-            if components is 3:
+            if components == 3:
                 data.SetTuple3(i, entry[0], entry[1], entry[2])
         return data
 
