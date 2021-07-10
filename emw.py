@@ -31,7 +31,8 @@ class ComplexForm(object):
 class HelmholtzEquation(ComplexForm):
    def __init__(self, T_re, T_im, E_re, E_im, k0, epsr, mur, dV):
         zero = Constant((0.0, 0.0, 0.0))
-        helmholtz_form = """inner(curl(T), invmur*curl(E))*dV-k0**2*inner(T, epsr*E)*dV"""
+        helmholtz_form = """inner(curl(T), invmur*curl(E))*dV """ + \
+                         """- k0**2*inner(T, epsr*E)*dV"""
         self.re, _ = separate_complex.separate(helmholtz_form,
             E=(E_re, E_im), T=T_re, epsr=epsr, invmur=1./mur, k0=k0, dV=dV)
         _, self.im = separate_complex.separate(helmholtz_form,
@@ -87,7 +88,8 @@ class ModeCoaxialWaveguideTEM(UserExpression):
         return 'ModeCoaxialWaveguideTEM(%d)' % (self.A)
 class WaveguidePortBoundaryCondition(ComplexForm):
     def __init__(self, T_re, T_im, E_re, E_im, n, k, mur, r0, r1, dS, E0=0,c=(0.0, 0.0, 0.0)):
-        wpbc_form = """1j*inner(cross(n, T), k*invmur*cross(n, E))*dS-2j*inner(T, k*invmur*e0TEM)*dS"""
+        wpbc_form = """1j*inner(cross(n, T), k*invmur*cross(n, E))*dS """ + \
+                    """- 2j*inner(T, k*invmur*e0TEM)*dS"""
 
         e0TEM = Expression(("0.0", "0.0", "0.0"), degree=1)
         if E0 > 0.0:
