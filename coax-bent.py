@@ -9,6 +9,15 @@ from postprocessing import *
 from emw import *
 from dolfin import *
 
+## Mesh
+mesh_name = "meshes/coax-bent"
+
+print("Reading %s" % mesh_name)
+mesh = Mesh("%s.xml" % mesh_name)
+n = FacetNormal(mesh)
+subdomains = MeshFunction("size_t", mesh, "%s_physical_region.xml" % mesh_name)
+boundaries = MeshFunction("size_t", mesh, "%s_facet_region.xml" % mesh_name)
+
 ## Physical constants
 freq = Constant(900e6)
 omega = 2 * pi * freq
@@ -20,19 +29,13 @@ r1 = 4.75e-3
 k0 = omega / c
 Z0 = sqrt(mu0/eps0)
 
+wpbc = True
+lpbc = False
+
 ## Problem data
 sigma_values = [0.00, 0.00]
 epsr_values =  [1.00, 2.04]
 mur_values =   [1.00, 1.00]
-
-## Formulation
-mesh_name = "meshes/coax-bent"
-
-print("Reading %s" % mesh_name)
-mesh = Mesh("%s.xml" % mesh_name)
-n = FacetNormal(mesh)
-subdomains = MeshFunction("size_t", mesh, "%s_physical_region.xml" % mesh_name)
-boundaries = MeshFunction("size_t", mesh, "%s_facet_region.xml" % mesh_name)
 
 # problem
 V_re = FiniteElement("N2curl", mesh.ufl_cell(), 1)
@@ -45,8 +48,6 @@ T_re, T_im = TestFunctions(V)
 T_im = -T_im
 
 # boundaries
-File(mesh_name + "_boundaries_original.pvd") << boundaries
-File(mesh_name + "_subdomains_original.pvd") << subdomains
 input_port = np.in1d(boundaries.array(), [3])
 output_port = np.in1d(boundaries.array(), [38])
 perfect_conductor = np.in1d(boundaries.array(), [1, 2, 4, 5] + [x for x in range(8, 38)] + [x for x in range(40, 46)])
@@ -61,9 +62,6 @@ pec_boundary = 2
 pmc_boundary = 3
 input_port_boundary = 4
 output_port_boundary = 5
-
-wpbc = True
-lpbc = False
 
 default_material = 0
 air_material  = 0
