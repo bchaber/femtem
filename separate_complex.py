@@ -142,8 +142,8 @@ def separate(form_as_str, **kwargs):
         else: # as real value: value
             locals()[var_name] = var
 
-    print("Debug: real part of the expression after separation:\n\t'%s'" % real_part_as_str)
-    print("Debug: imaginary part of the expression after separation:\n\t'%s'" % imag_part_as_str)
+    #print("Debug: real part of the expression after separation:\n\t'%s'" % real_part_as_str)
+    #print("Debug: imaginary part of the expression after separation:\n\t'%s'" % imag_part_as_str)
     real_part_as_ufl = eval(real_part_as_str)
     imaginary_part_as_ufl = eval(imag_part_as_str)
     return real_part_as_ufl, imaginary_part_as_ufl

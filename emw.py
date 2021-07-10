@@ -39,7 +39,6 @@ class HelmholtzEquation(ComplexForm):
             E=(E_re, E_im), T=T_im, epsr=epsr, invmur=1./mur, k0=k0, dV=dV)
         self.re += inner(T_re, zero)*dV
         self.im += inner(T_im, zero)*dV
-        print("id %d" % id(self))
 
 class ScatteringBoundaryCondition(ComplexForm):
     def __init__(self, T_re, T_im, E_re, E_im, n, k, dS):
